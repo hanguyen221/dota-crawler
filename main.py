@@ -5,15 +5,22 @@
 
 import requests
 from bs4 import BeautifulSoup
-
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import db
 from hero import Hero
+
+cred = credentials.Certificate("/Users/hanguyen/PycharmProjects/dota-crawler/dota-crawler-firebase-adminsdk-ojhkv-cff31af6fc.json")
+firebase_admin.initialize_app(cred, {
+    'databaseURL': 'https://dota-crawler-default-rtdb.asia-southeast1.firebasedatabase.app/'
+})
+ref = db.reference('/')
 
 headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET',
     'Access-Control-Allow-Headers': 'Content-Type',
     'Access-Control-Max-Age': '3600',
-    # 'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0'
 }
 
 def getHeroNames():
@@ -69,11 +76,12 @@ def getCountersForHero(hero: Hero):
                 hero.matchups.append(matchup)
 
 if __name__ == '__main__':
-    heroNames = getHeroNames()
-    heroes = []
-    for heroName in heroNames:
-        heroes.append(Hero(heroName))
-
-    getCountersForHero(heroes[0])
-    for bad in heroes[0].badAgainsts:
-        print(bad)
+    
+    # heroNames = getHeroNames()
+    # heroes = []
+    # for heroName in heroNames:
+    #     heroes.append(Hero(heroName))
+    #
+    # getCountersForHero(heroes[0])
+    # for bad in heroes[0].badAgainsts:
+    #     print(bad)
